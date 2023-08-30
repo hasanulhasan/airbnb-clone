@@ -2,8 +2,8 @@ import { links } from "../../assets/images-links";
 import "./styles.css";
 import { list } from "./../../assets/cards-list";
 import TuneIcon from '@mui/icons-material/Tune';
-import { Box, Input, InputAdornment, InputLabel, Modal, Typography } from "@mui/material";
-import React from "react";
+import { Box, Button, Input, InputAdornment, InputLabel, Modal, Typography } from "@mui/material";
+import React, { useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import { filterKey } from "../../redux/filterSlice";
@@ -15,7 +15,7 @@ import Slider from '@mui/material/Slider';
 
 const style = {
   position: 'absolute',
-  top: '40%',
+  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 800,
@@ -25,19 +25,29 @@ const style = {
   boxShadow: 24,
 };
 
+
 function Filter() {
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [prices, setPrices] = React.useState([20, 200]);
+  const [prices, setPrices] = React.useState([20, 250]);
+  const [rooms, setRooms] = useState('');
+  const [bed, setBed] = useState('');
+  const [bathrooms, setBathrooms] = useState('');
+  const [type, setType] = useState('');
+
+  const handleFilters = () => {
+    console.log(prices,rooms,bed,bathrooms,type)
+  }
 
   const handleChange = (event, newValue) => {
     setPrices(newValue);
   };
-  function valuetext(value) {
-    return `${value}°C`;
+  
+  function valuetext(prices) {
+    return `${prices}°C`;
   }
 
   return (
@@ -88,6 +98,9 @@ function Filter() {
             valueLabelDisplay="auto"
             getAriaValueText={valuetext}
             sx={{color: 'black'}}
+            min={0}
+            step={5}
+            max={300}
           />
         </Box>
 
@@ -101,7 +114,7 @@ function Filter() {
             onChange={(e)=> setPrices([e.target.value, prices[1]])}
           />
         </Box>
-        <Box sx={{ml: 3}}>
+        <Box sx={{ml: 5}}>
         <InputLabel htmlFor="standard-adornment-amount">Maximum</InputLabel>
           <Input
             id="standard-adornment-amount"
@@ -116,7 +129,7 @@ function Filter() {
         <Typography variant="body1" sx={{my:2}}>
           Rooms
         </Typography>
-        <div className="rooms">
+        <div className="rooms" onClick={(e)=> setRooms(e.target.innerText)}>
           <div className="rooms-data">Any</div>
           <div className="rooms-data">1</div>
           <div className="rooms-data">2</div>
@@ -130,7 +143,7 @@ function Filter() {
         <Typography variant="body1" sx={{my:2}}>
           Beds
         </Typography>
-        <div className="rooms">
+        <div className="rooms" onClick={(e)=> setBed(e.target.innerText)}>
           <div className="rooms-data">Any</div>
           <div className="rooms-data">1</div>
           <div className="rooms-data">2</div>
@@ -144,29 +157,31 @@ function Filter() {
         <Typography variant="body1" sx={{my:2}}>
           Bathrooms
         </Typography>
-        <div className="rooms">
-          <div className="rooms-data">Any</div>
-          <div className="rooms-data">1</div>
-          <div className="rooms-data">2</div>
-          <div className="rooms-data">3</div>
-          <div className="rooms-data">4</div>
-          <div className="rooms-data">5</div>
-          <div className="rooms-data">6</div>
-          <div className="rooms-data">7</div>
-          <div className="rooms-data">8+</div>
+        <div className="rooms" onClick={(e)=> setBathrooms(e.target.innerText)}>
+          <div className={`rooms-data ${ bathrooms === 'Any' ? 'conditional-bg': 'null'}`}>Any</div>
+          <div className={`rooms-data ${ bathrooms === '1' ? 'conditional-bg': 'null'}`}>1</div>
+          <div className={`rooms-data ${ bathrooms === '2' ? 'conditional-bg': 'null'}`}>2</div>
+          <div className={`rooms-data ${ bathrooms === '3' ? 'conditional-bg': 'null'}`}>3</div>
+          <div className={`rooms-data ${ bathrooms === '4' ? 'conditional-bg': 'null'}`}>4</div>
+          <div className={`rooms-data ${ bathrooms === '5' ? 'conditional-bg': 'null'}`}>5</div>
+          <div className={`rooms-data ${ bathrooms === '6' ? 'conditional-bg': 'null'}`}>6</div>
+          <div className={`rooms-data ${ bathrooms === '7' ? 'conditional-bg': 'null'}`}>7</div>
+          <div className={`rooms-data ${ bathrooms === '8+' ? 'conditional-bg': 'null'}`}>8+</div>
         </div>
         <hr style={{marginTop: '20px', opacity: '0.4'}}/>
         <Typography variant="h5" sx={{my:2}}>
           Property Type
         </Typography>
-        <div className="type">
-          <div className="type-data"><HouseOutlinedIcon variant="outlined" fontSize="large"/> House</div>
-          <div className="type-data"><ApartmentOutlinedIcon fontSize="large"/> Apartment</div>
-          <div className="type-data"> <MapsHomeWorkIcon fontSize="large"/>  GuestHouse</div>
-          <div className="type-data"><HotelIcon fontSize="large"/> Hotel</div>
+        <div onClick={(e)=> setType(e.target.innerText)} className="type">
+          <div className={`type-data ${ type === 'House' ? 'conditional-bg': 'null'}`}><HouseOutlinedIcon variant="outlined" fontSize="large"/> House</div>
+          <div className={`type-data ${ type === 'Apartment' ? 'conditional-bg': 'null'}`}><ApartmentOutlinedIcon fontSize="large"/> Apartment</div>
+          <div className={`type-data ${ type === 'GuestHouse' ? 'conditional-bg': 'null'}`}> <MapsHomeWorkIcon fontSize="large"/>  GuestHouse</div>
+          <div className={`type-data ${ type === 'Hotel' ? 'conditional-bg': 'null'}`}><HotelIcon fontSize="large"/> Hotel</div>
         </div>
+      <Box sx={{mt:2, display:'flex', justifyContent: 'end'}}>
+      <Button onClick={handleFilters} variant="contained" sx={{color: 'white', backgroundColor: 'black'}}>Show Results</Button>
+      </Box>
       </div>
-        
     </Box>
     </Modal>
 
