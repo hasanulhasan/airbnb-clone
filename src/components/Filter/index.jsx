@@ -6,7 +6,7 @@ import { Box, Button, Input, InputAdornment, InputLabel, Modal, Typography } fro
 import React, { useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
-import { filterKey } from "../../redux/filterSlice";
+import { filterFiled, filterKey } from "../../redux/filterSlice";
 import HouseOutlinedIcon from '@mui/icons-material/HouseOutlined';
 import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined';
 import HotelIcon from '@mui/icons-material/Hotel';
@@ -28,7 +28,7 @@ const style = {
 
 function Filter() {
   const dispatch = useDispatch();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -40,6 +40,10 @@ function Filter() {
 
   const handleFilters = () => {
     console.log(prices,rooms,bed,bathrooms,type)
+
+    dispatch(filterFiled(
+      {prices, rooms, bed, bathrooms, type}
+    ))
   }
 
   const handleChange = (event, newValue) => {
@@ -47,7 +51,7 @@ function Filter() {
   };
   
   function valuetext(prices) {
-    return `${prices}°C`;
+    return `${prices}`;
   }
 
   return (
@@ -73,13 +77,17 @@ function Filter() {
       aria-describedby="modal-modal-description"
     >
     <Box sx={style}>
-        <Box sx={{display: 'flex', justifyContent: 'space-between', pt: 2}}>
-        <CloseIcon fontSize="large" sx={{m: 1}}/>
-        <Typography sx={{display: 'flex', justifyContent: 'center'}} variant="h6">
+
+        <Box sx={{pt: 2}}>
+        <Box onClick={handleClose} sx={{ml: 2, position:'absolute', cursor: 'pointer'}}> 
+        <CloseIcon fontSize="large"/> 
+        </Box>
+        <Typography sx={{position: 'relative', textAlign:'center', fontWeight: '600'}} variant="h6">
          Filters
         </Typography>
-        </Box>
+      </Box>
         <hr style={{opacity: '0.4'}}/>
+
 
         <div style={{padding: '1rem'}}>
         <Typography variant="h5">
@@ -130,29 +138,29 @@ function Filter() {
           Rooms
         </Typography>
         <div className="rooms" onClick={(e)=> setRooms(e.target.innerText)}>
-          <div className="rooms-data">Any</div>
-          <div className="rooms-data">1</div>
-          <div className="rooms-data">2</div>
-          <div className="rooms-data">3</div>
-          <div className="rooms-data">4</div>
-          <div className="rooms-data">5</div>
-          <div className="rooms-data">6</div>
-          <div className="rooms-data">7</div>
-          <div className="rooms-data">8+</div>
+          <div className={`rooms-data ${ rooms === 'Any' ? 'conditional-bg': 'null'}`}>Any</div>
+          <div className={`rooms-data ${ rooms === '1' ? 'conditional-bg': 'null'}`}>1</div>
+          <div className={`rooms-data ${ rooms === '2' ? 'conditional-bg': 'null'}`}>2</div>
+          <div className={`rooms-data ${ rooms === '3' ? 'conditional-bg': 'null'}`}>3</div>
+          <div className={`rooms-data ${ rooms === '4' ? 'conditional-bg': 'null'}`}>4</div>
+          <div className={`rooms-data ${ rooms === '5' ? 'conditional-bg': 'null'}`}>5</div>
+          <div className={`rooms-data ${ rooms === '6' ? 'conditional-bg': 'null'}`}>6</div>
+          <div className={`rooms-data ${ rooms === '7' ? 'conditional-bg': 'null'}`}>7</div>
+          <div className={`rooms-data ${ rooms === '8+' ? 'conditional-bg': 'null'}`}>8+</div>
         </div>
         <Typography variant="body1" sx={{my:2}}>
           Beds
         </Typography>
         <div className="rooms" onClick={(e)=> setBed(e.target.innerText)}>
-          <div className="rooms-data">Any</div>
-          <div className="rooms-data">1</div>
-          <div className="rooms-data">2</div>
-          <div className="rooms-data">3</div>
-          <div className="rooms-data">4</div>
-          <div className="rooms-data">5</div>
-          <div className="rooms-data">6</div>
-          <div className="rooms-data">7</div>
-          <div className="rooms-data">8+</div>
+          <div className={`rooms-data ${ bed === 'Any' ? 'conditional-bg': 'null'}`}>Any</div>
+          <div className={`rooms-data ${ bed === '1' ? 'conditional-bg': 'null'}`}>1</div>
+          <div className={`rooms-data ${ bed === '2' ? 'conditional-bg': 'null'}`}>2</div>
+          <div className={`rooms-data ${ bed === '3' ? 'conditional-bg': 'null'}`}>3</div>
+          <div className={`rooms-data ${ bed === '4' ? 'conditional-bg': 'null'}`}>4</div>
+          <div className={`rooms-data ${ bed === '5' ? 'conditional-bg': 'null'}`}>5</div>
+          <div className={`rooms-data ${ bed === '6' ? 'conditional-bg': 'null'}`}>6</div>
+          <div className={`rooms-data ${ bed === '7' ? 'conditional-bg': 'null'}`}>7</div>
+          <div className={`rooms-data ${ bed === '8+' ? 'conditional-bg': 'null'}`}>8+</div>
         </div>
         <Typography variant="body1" sx={{my:2}}>
           Bathrooms

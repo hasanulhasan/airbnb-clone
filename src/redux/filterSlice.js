@@ -4,7 +4,14 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   category: '',
-  filterableField: ['type', 'bed', 'bathrooms']
+  filterableField: [
+   {minPrice: ''},
+   {maxPrice: ''},
+   {rooms: ''},
+   {bed: ''},
+   {bathrooms: ''},
+   {type: ''}
+  ]
 }
 
 export const filterSlice = createSlice({
@@ -15,12 +22,12 @@ export const filterSlice = createSlice({
       state.category = action.payload
     },
     filterFiled: (state, action) => {
-      state.filterableField.push(action.payload)
+      state.filterableField = action.payload
     },
   
   },
 })
 
-export const { filterKey, changeLimit} = filterSlice.actions
+export const { filterKey, filterFiled} = filterSlice.actions
 
 export default filterSlice.reducer
